@@ -1,1 +1,1 @@
-A portable air quality monitor that you can mount on your car to collect air quality data
+A home security and air quality monitor built with Pi
