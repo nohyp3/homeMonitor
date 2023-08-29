@@ -6,13 +6,8 @@ from datetime import datetime
 #add the tiny db database 
 from tinydb import TinyDB, Query
 db = TinyDB('db.json')
-current_time = datetime.now()
-json_str = json.dumps({current_time},default=str)
-print("""read-all.py - Displays temperature, pressure, humidity, and gas.
-
-Press Ctrl+C to exit!
-
-""")
+current_time = datetime.utcnow()
+json_str = int(time.mktime(current_time.timetuple()))*1000
 
 try:
     sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
@@ -74,8 +69,8 @@ try:
             else:
                 print(output)
         #dump all data from tinydb
-        print(db.all())
         db.insert({'time':json_str,'temperature':sensor.data.temperature, 'pressure':sensor.data.pressure, 'humidity':sensor.data.humidity,'gas-resistance':sensor.data.gas_resistance})
+        #print(db.all())
         time.sleep(3600)
 
 except KeyboardInterrupt:
