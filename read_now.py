@@ -2,12 +2,11 @@
 import json
 import bme680
 import time
-from datetime import datetime
+import datetime
 #add the tiny db database 
 from tinydb import TinyDB, Query
 db = TinyDB('db.json')
-current_time = datetime.now()
-json_str = json.dumps({current_time},default=str)
+
 print("""read-all.py - Displays temperature, pressure, humidity, and gas.
 
 Press Ctrl+C to exit!
@@ -57,6 +56,8 @@ sensor.select_gas_heater_profile(0)
 # sensor.set_gas_heater_profile(200, 150, nb_profile=1)
 # sensor.select_gas_heater_profile(1)
 def get_now():
+    current_time = datetime.datetime.now()
+    json_str = int(current_time.timestamp())*1000
     if sensor.get_sensor_data():
         return {'time':json_str,'temperature':sensor.data.temperature, 'pressure':sensor.data.pressure, 'humidity':sensor.data.humidity,'gas-resistance':sensor.data.gas_resistance}
                     
